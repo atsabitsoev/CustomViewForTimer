@@ -12,6 +12,7 @@
 		ACD5A3E72265C7900080906F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ACD5A3E52265C7900080906F /* Main.storyboard */; };
 		ACD5A3E92265C7910080906F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACD5A3E82265C7910080906F /* Assets.xcassets */; };
 		ACD5A3EC2265C7910080906F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ACD5A3EA2265C7910080906F /* LaunchScreen.storyboard */; };
+		ACD5A3F42265C7C40080906F /* PomodoroTimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD5A3F32265C7C40080906F /* PomodoroTimerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		ACD5A3E82265C7910080906F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		ACD5A3EB2265C7910080906F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		ACD5A3ED2265C7910080906F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		ACD5A3F32265C7C40080906F /* PomodoroTimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PomodoroTimerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +58,7 @@
 			children = (
 				ACD5A3E12265C7900080906F /* AppDelegate.swift */,
 				ACD5A3E32265C7900080906F /* ViewController.swift */,
+				ACD5A3F32265C7C40080906F /* PomodoroTimerView.swift */,
 				ACD5A3E52265C7900080906F /* Main.storyboard */,
 				ACD5A3E82265C7910080906F /* Assets.xcassets */,
 				ACD5A3EA2265C7910080906F /* LaunchScreen.storyboard */,
@@ -135,6 +138,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ACD5A3F42265C7C40080906F /* PomodoroTimerView.swift in Sources */,
 				ACD5A3E42265C7900080906F /* ViewController.swift in Sources */,
 				ACD5A3E22265C7900080906F /* AppDelegate.swift in Sources */,
 			);
