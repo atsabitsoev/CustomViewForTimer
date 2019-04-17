@@ -18,10 +18,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleAspectFit" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3nZ-y1-Z2z" customClass="PomodoroTimerView" customModule="CustomViewForTimer" customModuleProvider="target">
-                                <rect key="frame" x="61" y="136" width="253" height="314"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <view contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="3nZ-y1-Z2z" customClass="PomodoroTimerView" customModule="CustomViewForTimer" customModuleProvider="target">
+                                <rect key="frame" x="18" y="236.66666666666663" width="339" height="339"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="3nZ-y1-Z2z" secondAttribute="height" multiplier="1:1" id="BKv-om-7lg"/>
+                                </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="color" keyPath="mainColor">
                                         <color key="value" red="0.0039215686269999999" green="0.67450980390000004" blue="0.75686274509999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -45,6 +47,12 @@
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="3nZ-y1-Z2z" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="18" id="1fL-by-7XG"/>
+                            <constraint firstItem="3nZ-y1-Z2z" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="BKn-oi-vU7"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="3nZ-y1-Z2z" secondAttribute="trailing" constant="18" id="WP0-kb-1V5"/>
+                            <constraint firstItem="3nZ-y1-Z2z" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="q8k-Rt-xiA"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                 </viewController>
