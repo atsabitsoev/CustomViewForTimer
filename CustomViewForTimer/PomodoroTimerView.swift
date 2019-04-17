@@ -89,7 +89,7 @@ class PomodoroTimerView: UIView {
         shadowView.layer.shadowColor = shadowColor.cgColor
         shadowView.layer.shadowRadius = shadowBlurRadius
         shadowView.layer.shadowOpacity = 1
-        shadowView.backgroundColor = UIColor.white.withAlphaComponent(1)
+        shadowView.backgroundColor = shadowColor
         shadowView.layer.cornerRadius = rect.width / 2
         
         self.superview!.insertSubview(shadowView, at: 0)
