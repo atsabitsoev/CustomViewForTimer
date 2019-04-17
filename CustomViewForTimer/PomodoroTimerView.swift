@@ -8,6 +8,11 @@
 
 import UIKit
 
+enum PomodoroTimerState {
+    case work, relax
+}
+
+
 @IBDesignable
 class PomodoroTimerView: UIView {
     
@@ -111,5 +116,39 @@ class PomodoroTimerView: UIView {
         
         self.addSubview(labTime)
     }
+    
+    private func setCircleIndicator(totalSeconds: Int, currentSeconds: Int, state: PomodoroTimerState) {
+        
+        let startAngle: CGFloat = -.pi / 4
+        let k = CGFloat(currentSeconds) / CGFloat(totalSeconds)
+        let angleSize: CGFloat = 2 * .pi * k
+        let endAngle = startAngle + angleSize
+        let center = CGPoint(x: width / 2,
+                             y: height / 2)
+        
+        let indicatorPath = UIBezierPath(arcCenter: center,
+                                         radius: radius,
+                                         startAngle: startAngle,
+                                         endAngle: endAngle,
+                                         clockwise: true)
+        UIColor.black.withAlphaComponent(0.5).setFill()
+        indicatorPath.fill()
+    }
+    
+    
+    // User Functions
+    func startTimer(totalSeconds: Int, currentSeconds: Int, state: PomodoroTimerState) {
+        
+        var secondsRest = currentSeconds
+        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { (timer) in
+            
+            if secondsRest > 0 {
+                secondsRest -= Int(timer.timeInterval)
+            } else {
+                timer.invalidate()
+            }
+        }
+    }
+    
 
 }
