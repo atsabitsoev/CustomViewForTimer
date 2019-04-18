@@ -30,13 +30,15 @@ class PomodoroTimerView: UIView {
     lazy var diameter = min(width, height)
     var radius: CGFloat { get { return diameter / 2 } }
     
-    lazy var context = UIGraphicsGetCurrentContext()!
+    var totalSeconds = 30
+    var currentSeconds = 15
     
     
     override func draw(_ rect: CGRect) {
         
         mainCircle()
         arcs(radius: radius * arcsRadMultiplier)
+
     }
     
     override func layoutSubviews() {
@@ -117,7 +119,7 @@ class PomodoroTimerView: UIView {
         self.addSubview(labTime)
     }
     
-    private func setCircleIndicator(totalSeconds: Int, currentSeconds: Int, state: PomodoroTimerState) {
+    func setCircleIndicator(totalSeconds: Int, currentSeconds: Int, state: PomodoroTimerState) {
         
         let startAngle: CGFloat = -.pi / 4
         let k = CGFloat(currentSeconds) / CGFloat(totalSeconds)
@@ -127,23 +129,29 @@ class PomodoroTimerView: UIView {
                              y: height / 2)
         
         let indicatorPath = UIBezierPath(arcCenter: center,
-                                         radius: radius,
+                                         radius: radius / 2,
                                          startAngle: startAngle,
                                          endAngle: endAngle,
                                          clockwise: true)
-        UIColor.black.withAlphaComponent(0.5).setFill()
-        indicatorPath.fill()
+        UIColor.black.withAlphaComponent(0.5).setStroke()
+        indicatorPath.lineWidth = radius
+        indicatorPath.stroke()
+        print(k)
     }
     
     
     // User Functions
     func startTimer(totalSeconds: Int, currentSeconds: Int, state: PomodoroTimerState) {
         
-        var secondsRest = currentSeconds
+        self.totalSeconds = totalSeconds
+        self.currentSeconds = currentSeconds
+        
+        
         Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { (timer) in
             
-            if secondsRest > 0 {
-                secondsRest -= Int(timer.timeInterval)
+            if self.totalSeconds - self.currentSeconds > 0 {
+                self.currentSeconds += Int(timer.timeInterval)
+                print(self.currentSeconds)
             } else {
                 timer.invalidate()
             }
