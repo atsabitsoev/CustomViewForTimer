@@ -17,18 +17,22 @@ enum PomodoroTimerState {
 class PomodoroTimerView: UIView {
     
     
-    @IBInspectable var mainColor: UIColor = UIColor.gray
-    @IBInspectable var additionalColor: UIColor = UIColor.darkGray
+    @IBInspectable var mainColor: UIColor = #colorLiteral(red: 0.003921568627, green: 0.6745098039, blue: 0.7568627451, alpha: 1)
+    @IBInspectable var additionalColor: UIColor = #colorLiteral(red: 0.2901960784, green: 0.6431372549, blue: 0.7137254902, alpha: 1)
     @IBInspectable var arcsRadMultiplier: CGFloat = 0.75
+    @IBInspectable var labTimeFontName: String?
+    @IBInspectable var labTimeFontSize: CGFloat = 30
     
-    @IBInspectable var shadowColor: UIColor = UIColor.black.withAlphaComponent(0.80)
+    @IBInspectable var shadowColor: UIColor = #colorLiteral(red: 0.368627451, green: 0.2117647059, blue: 0.6980392157, alpha: 1)
     let shadowOffset = CGSize(width: 0, height: 0)
-    @IBInspectable var shadowBlurRadius: CGFloat = 5
+    @IBInspectable var shadowBlurRadius: CGFloat = 4
     
     lazy var width = bounds.width
     lazy var height = bounds.height
     lazy var diameter = min(width, height)
     var radius: CGFloat { get { return diameter / 2 } }
+    
+    let labTime = UILabel()
     
     var firstDraw = true
     
@@ -46,11 +50,15 @@ class PomodoroTimerView: UIView {
         mainCircle()
         arcs(radius: radius * arcsRadMultiplier)
         setCircleIndicator(totalSeconds: totalSeconds, currentSeconds: currentSeconds, state: .work)
+        setLabTimeString()
         firstDraw = false
     }
     
     override func layoutSubviews() {
-        setLabTime()
+        if firstDraw {
+            createLabTime()
+        }
+        
     }
     
     
@@ -113,23 +121,6 @@ class PomodoroTimerView: UIView {
         self.superview!.insertSubview(shadowView, at: 0)
     }
     
-    private func setLabTime() {
-        
-        let labTime = UILabel()
-        labTime.bounds.size = CGSize(width: 100, height: 41)
-        labTime.center = CGPoint(x: self.bounds.width/2, y: self.bounds.height/2)
-        labTime.backgroundColor = UIColor.white
-        labTime.layer.cornerRadius = 8
-        labTime.clipsToBounds = true
-        labTime.layer.borderWidth = 1
-        labTime.layer.borderColor = UIColor.black.cgColor
-        
-        labTime.text = "14:49"
-        labTime.textAlignment = .center
-        
-        self.addSubview(labTime)
-    }
-    
     private func setCircleIndicator(totalSeconds: Int, currentSeconds: Int, state: PomodoroTimerState) {
         
         let startAngle: CGFloat = -.pi / 2
@@ -148,6 +139,31 @@ class PomodoroTimerView: UIView {
         indicatorPath.lineWidth = radius
         indicatorPath.stroke()
         print(k)
+    }
+    
+    private func createLabTime() {
+        
+        labTime.bounds.size = CGSize(width: 100, height: 41)
+        labTime.center = CGPoint(x: self.bounds.width/2, y: self.bounds.height/2)
+        labTime.backgroundColor = UIColor.white
+        labTime.layer.cornerRadius = 8
+        labTime.clipsToBounds = true
+        labTime.layer.borderWidth = 1
+        labTime.layer.borderColor = UIColor.black.cgColor
+        if let labTimeFontName = labTimeFontName {
+            labTime.font = UIFont(name: labTimeFontName, size: labTimeFontSize)
+        }
+        labTime.textAlignment = .center
+        
+        self.addSubview(labTime)
+    }
+    
+    func setLabTimeString() {
+        let secondsRest = totalSeconds - currentSeconds
+        let minutes: Int = secondsRest/60
+        let seconds: Int = secondsRest - minutes * 60
+        let timeString = "\(minutes):\(seconds)"
+        labTime.text = timeString
     }
     
     

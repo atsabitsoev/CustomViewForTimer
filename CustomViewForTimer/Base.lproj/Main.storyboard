@@ -29,7 +29,7 @@
                                         <color key="value" red="0.0039215686269999999" green="0.67450980390000004" blue="0.75686274509999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="color" keyPath="additionalColor">
-                                        <color key="value" red="0.28861618041992188" green="0.64154922962188721" blue="0.71373897790908813" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <color key="value" red="0.29019607843137252" green="0.64313725490196072" blue="0.71372549019607845" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="number" keyPath="smallRadMultiplier">
                                         <real key="value" value="0.75"/>
@@ -42,6 +42,9 @@
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="number" keyPath="shadowBlurRadius">
                                         <real key="value" value="4"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="labTimeFontSize">
+                                        <real key="value" value="10"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
