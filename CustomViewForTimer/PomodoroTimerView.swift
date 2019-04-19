@@ -30,15 +30,23 @@ class PomodoroTimerView: UIView {
     lazy var diameter = min(width, height)
     var radius: CGFloat { get { return diameter / 2 } }
     
+    var firstDraw = true
+    
     var totalSeconds = 30
-    var currentSeconds = 15
+    var currentSeconds = 0 {
+        didSet {
+            print("didset")
+            self.setNeedsDisplay()
+        }
+    }
     
     
     override func draw(_ rect: CGRect) {
-        
+
         mainCircle()
         arcs(radius: radius * arcsRadMultiplier)
-
+        setCircleIndicator(totalSeconds: totalSeconds, currentSeconds: currentSeconds, state: .work)
+        firstDraw = false
     }
     
     override func layoutSubviews() {
@@ -58,7 +66,10 @@ class PomodoroTimerView: UIView {
         mainColor.setFill()
         mainCirclePath.fill()
         
-        createShadow(mainRect)
+        if firstDraw {
+            createShadow(mainRect)
+        }
+        
     }
     
     private func arcs(radius: CGFloat) {
@@ -119,11 +130,11 @@ class PomodoroTimerView: UIView {
         self.addSubview(labTime)
     }
     
-    func setCircleIndicator(totalSeconds: Int, currentSeconds: Int, state: PomodoroTimerState) {
+    private func setCircleIndicator(totalSeconds: Int, currentSeconds: Int, state: PomodoroTimerState) {
         
-        let startAngle: CGFloat = -.pi / 4
+        let startAngle: CGFloat = -.pi / 2
         let k = CGFloat(currentSeconds) / CGFloat(totalSeconds)
-        let angleSize: CGFloat = 2 * .pi * k
+        let angleSize: CGFloat = 2 * .pi * k + 0.00001
         let endAngle = startAngle + angleSize
         let center = CGPoint(x: width / 2,
                              y: height / 2)
@@ -132,7 +143,7 @@ class PomodoroTimerView: UIView {
                                          radius: radius / 2,
                                          startAngle: startAngle,
                                          endAngle: endAngle,
-                                         clockwise: true)
+                                         clockwise: false)
         UIColor.black.withAlphaComponent(0.5).setStroke()
         indicatorPath.lineWidth = radius
         indicatorPath.stroke()
@@ -140,12 +151,11 @@ class PomodoroTimerView: UIView {
     }
     
     
-    // User Functions
+    //MARK: Usable Functions
     func startTimer(totalSeconds: Int, currentSeconds: Int, state: PomodoroTimerState) {
         
         self.totalSeconds = totalSeconds
         self.currentSeconds = currentSeconds
-        
         
         Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { (timer) in
             
