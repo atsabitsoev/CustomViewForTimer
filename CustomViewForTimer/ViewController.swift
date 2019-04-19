@@ -20,7 +20,7 @@ class ViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        pomodoroTimer.startTimer(totalSeconds: 25 * 60, currentSeconds: 0, state: .work)
+        pomodoroTimer.startTimer(totalSeconds: 30, currentSeconds: 40, state: .work)
     }
 
 

@@ -36,10 +36,12 @@ class PomodoroTimerView: UIView {
     
     var firstDraw = true
     
-    var totalSeconds = 30
+    @IBInspectable var totalSeconds = 30
     var currentSeconds = 0 {
         didSet {
-            print("didset")
+            if currentSeconds > totalSeconds {
+                currentSeconds = totalSeconds
+            }
             self.setNeedsDisplay()
         }
     }
@@ -162,7 +164,15 @@ class PomodoroTimerView: UIView {
         let secondsRest = totalSeconds - currentSeconds
         let minutes: Int = secondsRest/60
         let seconds: Int = secondsRest - minutes * 60
-        let timeString = "\(minutes):\(seconds)"
+        var minutesString = String(minutes)
+        var secondsString = String(seconds)
+        if minutesString.count == 1 {
+            minutesString.insert("0", at: minutesString.startIndex)
+        }
+        if secondsString.count == 1 {
+            secondsString.insert("0", at: secondsString.startIndex)
+        }
+        let timeString = "\(minutesString):\(secondsString)"
         labTime.text = timeString
     }
     
