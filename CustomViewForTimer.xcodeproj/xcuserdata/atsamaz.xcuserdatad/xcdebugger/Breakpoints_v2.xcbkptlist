@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CustomViewForTimer/PomodoroTimerView.swift"
-            timestampString = "577557389.896992"
+            timestampString = "577568133.296972"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "317"
-            endingLineNumber = "317"
+            startingLineNumber = "355"
+            endingLineNumber = "355"
             landmarkName = "startTimer()"
             landmarkType = "7">
          </BreakpointContent>

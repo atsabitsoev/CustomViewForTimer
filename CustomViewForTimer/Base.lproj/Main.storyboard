@@ -47,6 +47,13 @@
                                         <integer key="value" value="300"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="string" keyPath="labTimeFontName" value="Helvetica"/>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="labRelaxFontName" value="Helvetica"/>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="bigRelaxEvery">
+                                        <integer key="value" value="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="totalCircles">
+                                        <integer key="value" value="2"/>
+                                    </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="s4e-4M-Sbs">

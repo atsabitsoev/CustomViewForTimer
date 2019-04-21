@@ -20,8 +20,12 @@ class PomodoroTimerView: UIView {
     @IBInspectable var mainColor: UIColor = #colorLiteral(red: 0.003921568627, green: 0.6745098039, blue: 0.7568627451, alpha: 1)
     @IBInspectable var additionalColor: UIColor = #colorLiteral(red: 0.2901960784, green: 0.6431372549, blue: 0.7137254902, alpha: 1)
     @IBInspectable var arcsRadMultiplier: CGFloat = 0.75
+    
     @IBInspectable var labTimeFontName: String?
     @IBInspectable var labTimeFontSize: CGFloat = 0
+    @IBInspectable var labRelaxFontName: String?
+    @IBInspectable var labRelaxFontSize: CGFloat = 0
+    
     @IBInspectable var shadowColor: UIColor = #colorLiteral(red: 0.368627451, green: 0.2117647059, blue: 0.6980392157, alpha: 1)
     let shadowOffset = CGSize(width: 0, height: 0)
     @IBInspectable var shadowBlurRadius: CGFloat = 4
@@ -32,6 +36,7 @@ class PomodoroTimerView: UIView {
     var radius: CGFloat { get { return diameter / 2 } }
     
     private let labTime = UILabel()
+    private let labRelax = UILabel()
     private var firstDraw = true
     private var timer: Timer?
     
@@ -42,6 +47,7 @@ class PomodoroTimerView: UIView {
     @IBInspectable var totalCircles: Int = 4
     
     var currentCircle: Int = 0
+    
     var currentSeconds = 0 {
         didSet {
             if currentSeconds > workSeconds {
@@ -50,7 +56,9 @@ class PomodoroTimerView: UIView {
             self.setNeedsDisplay()
         }
     }
-    var state: PomodoroTimerState = .work
+    
+    var state: PomodoroTimerState = .work { didSet { configureLabRelax() } }
+    
     private var viewConfigured = false
     
     
@@ -61,8 +69,10 @@ class PomodoroTimerView: UIView {
         setCircleIndicator()
         if firstDraw {
             createLabTime()
+            self.addSubview(labRelax)
         }
         setLabTimeString()
+        configureLabRelax()
         firstDraw = false
     }
     
@@ -212,6 +222,34 @@ class PomodoroTimerView: UIView {
             timer = nil
         }
     }
+    
+    private func configureLabRelax() {
+        
+        labRelax.bounds.size = labTime.bounds.size
+        labRelax.center = CGPoint(x: labTime.center.x, y: labTime.center.y + labTime.bounds.height)
+        labRelax.text = "Перерыв..."
+        labRelax.textAlignment = .center
+        labRelax.textColor = UIColor.white
+        
+        if let labRelaxFontName = labRelaxFontName {
+            if labRelaxFontSize != 0 {
+                labRelax.font = UIFont(name: labRelaxFontName, size: labRelaxFontSize)
+            } else {
+                labRelax.font = UIFont(name: labRelaxFontName, size: labTime.font.pointSize / 30 * 18)
+            }
+        } else {
+            labRelax.font = labRelax.font.withSize(labTime.font.pointSize / 30 * 18)
+        }
+        
+        switch state {
+        case .work:
+            labRelax.alpha = 0
+        case .relax:
+            labRelax.alpha = 1
+        }
+        
+    }
+    
     
     //MARK: Configure PomodoroTimerView
     func configure(workSeconds: Int,
