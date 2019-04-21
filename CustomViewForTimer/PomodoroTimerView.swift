@@ -21,8 +21,7 @@ class PomodoroTimerView: UIView {
     @IBInspectable var additionalColor: UIColor = #colorLiteral(red: 0.2901960784, green: 0.6431372549, blue: 0.7137254902, alpha: 1)
     @IBInspectable var arcsRadMultiplier: CGFloat = 0.75
     @IBInspectable var labTimeFontName: String?
-    @IBInspectable var labTimeFontSize: CGFloat = 30
-    
+    @IBInspectable var labTimeFontSize: CGFloat = 0
     @IBInspectable var shadowColor: UIColor = #colorLiteral(red: 0.368627451, green: 0.2117647059, blue: 0.6980392157, alpha: 1)
     let shadowOffset = CGSize(width: 0, height: 0)
     @IBInspectable var shadowBlurRadius: CGFloat = 4
@@ -32,35 +31,39 @@ class PomodoroTimerView: UIView {
     lazy var diameter = min(width, height)
     var radius: CGFloat { get { return diameter / 2 } }
     
-    let labTime = UILabel()
+    private let labTime = UILabel()
+    private var firstDraw = true
+    private var timer: Timer?
     
-    var firstDraw = true
+    @IBInspectable var workSeconds: Int = 25
+    @IBInspectable var smallRelaxSeconds: Int = 5
+    @IBInspectable var bigRelaxSeconds: Int = 20
+    @IBInspectable var bigRelaxEvery: Int = 4
+    @IBInspectable var totalCircles: Int = 4
     
-    @IBInspectable var totalSeconds = 30
+    var currentCircle: Int = 0
     var currentSeconds = 0 {
         didSet {
-            if currentSeconds > totalSeconds {
-                currentSeconds = totalSeconds
+            if currentSeconds > workSeconds {
+                currentSeconds = workSeconds
             }
             self.setNeedsDisplay()
         }
     }
+    var state: PomodoroTimerState = .work
+    private var viewConfigured = false
     
     
     override func draw(_ rect: CGRect) {
 
         mainCircle()
         arcs(radius: radius * arcsRadMultiplier)
-        setCircleIndicator(totalSeconds: totalSeconds, currentSeconds: currentSeconds, state: .work)
-        setLabTimeString()
-        firstDraw = false
-    }
-    
-    override func layoutSubviews() {
+        setCircleIndicator()
         if firstDraw {
             createLabTime()
         }
-        
+        setLabTimeString()
+        firstDraw = false
     }
     
     
@@ -123,10 +126,27 @@ class PomodoroTimerView: UIView {
         self.superview!.insertSubview(shadowView, at: 0)
     }
     
-    private func setCircleIndicator(totalSeconds: Int, currentSeconds: Int, state: PomodoroTimerState) {
+    private func getCurrentTotalSeconds() -> Int {
+        var totalSeconds = 0
+        switch state {
+        case .work:
+            totalSeconds = workSeconds
+        case .relax:
+            if (currentCircle + 1) % bigRelaxEvery == 0 {
+                totalSeconds = bigRelaxSeconds
+            } else {
+                totalSeconds = smallRelaxSeconds
+            }
+        }
+        return totalSeconds
+    }
+    
+    private func setCircleIndicator() {
+        
+        let totalSeconds = getCurrentTotalSeconds()
         
         let startAngle: CGFloat = -.pi / 2
-        let k = CGFloat(currentSeconds) / CGFloat(totalSeconds)
+        let k = CGFloat(self.currentSeconds) / CGFloat(totalSeconds)
         let angleSize: CGFloat = 2 * .pi * k + 0.00001
         let endAngle = startAngle + angleSize
         let center = CGPoint(x: width / 2,
@@ -145,22 +165,32 @@ class PomodoroTimerView: UIView {
     
     private func createLabTime() {
         
-        labTime.bounds.size = CGSize(width: 100, height: 41)
+        labTime.bounds.size = CGSize(width: diameter * 0.37, height: diameter * 0.15)
         labTime.center = CGPoint(x: self.bounds.width/2, y: self.bounds.height/2)
         labTime.backgroundColor = UIColor.white
         labTime.layer.cornerRadius = 8
         labTime.clipsToBounds = true
         labTime.layer.borderWidth = 1
         labTime.layer.borderColor = UIColor.black.cgColor
+        
+        if labTimeFontSize == 0 {
+            labTimeFontSize = labTime.bounds.height * 0.73
+        }
         if let labTimeFontName = labTimeFontName {
             labTime.font = UIFont(name: labTimeFontName, size: labTimeFontSize)
+        } else {
+            labTime.font = labTime.font.withSize(labTimeFontSize)
         }
+        
         labTime.textAlignment = .center
         
         self.addSubview(labTime)
     }
     
-    func setLabTimeString() {
+    private func setLabTimeString() {
+        
+        let totalSeconds = getCurrentTotalSeconds()
+        
         let secondsRest = totalSeconds - currentSeconds
         let minutes: Int = secondsRest/60
         let seconds: Int = secondsRest - minutes * 60
@@ -176,23 +206,135 @@ class PomodoroTimerView: UIView {
         labTime.text = timeString
     }
     
+    private func invalidateTimer() {
+        if timer != nil {
+            timer!.invalidate()
+            timer = nil
+        }
+    }
     
-    //MARK: Usable Functions
-    func startTimer(totalSeconds: Int, currentSeconds: Int, state: PomodoroTimerState) {
+    //MARK: Configure PomodoroTimerView
+    func configure(workSeconds: Int,
+                   smallRelaxSeconds: Int,
+                   bigRelaxSeconds: Int,
+                   bigRelaxEvery: Int,
+                   currentSeconds: Int,
+                   currentCircle: Int,
+                   totalCircles: Int,
+                   currentState: PomodoroTimerState) {
         
-        self.totalSeconds = totalSeconds
+        self.workSeconds = workSeconds
+        self.smallRelaxSeconds = smallRelaxSeconds
+        self.bigRelaxSeconds = bigRelaxSeconds
+        self.bigRelaxEvery = bigRelaxEvery
         self.currentSeconds = currentSeconds
+        self.currentCircle = currentCircle
+        self.totalCircles = totalCircles
+        self.state = currentState
         
-        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { (timer) in
+        viewConfigured = true
+    }
+    
+    private func timerFinished() {
+        
+        currentSeconds = 0
+        
+        switch state {
+        case .work:
             
-            if self.totalSeconds - self.currentSeconds > 0 {
-                self.currentSeconds += Int(timer.timeInterval)
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "workTimerFinished"), object: nil)
+            state = .relax
+            startTimer()
+            
+        case .relax:
+            
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "relaxTimerFinished"), object: nil)
+            if currentCircle + 1 < totalCircles {
+                currentCircle += 1
+                print("Начался круг \(currentCircle)")
+                state = .work
+                startTimer()
+            }
+            
+        }
+    }
+    
+    private func startWorkTimer() {
+        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { (thisTimer) in
+            
+            if self.workSeconds - self.currentSeconds > 0 {
+                self.currentSeconds += Int(thisTimer.timeInterval)
                 print(self.currentSeconds)
             } else {
-                timer.invalidate()
+                self.invalidateTimer()
+                self.timerFinished()
             }
         }
     }
     
+    private func startSmallRelaxTimer() {
+        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { (thisTimer) in
+            
+            if self.smallRelaxSeconds - self.currentSeconds > 0 {
+                self.currentSeconds += Int(thisTimer.timeInterval)
+                print(self.currentSeconds)
+            } else {
+                self.invalidateTimer()
+                self.timerFinished()
+            }
+        }
+    }
+    
+    private func startBigRelaxTimer() {
+        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { (thisTimer) in
+            
+            if self.bigRelaxSeconds - self.currentSeconds > 0 {
+                self.currentSeconds += Int(thisTimer.timeInterval)
+                print(self.currentSeconds)
+            } else {
+                self.invalidateTimer()
+                self.timerFinished()
+            }
+        }
+    }
+    
+    
+    //MARK: Usable Functions
+    func startTimer() {
+        
+        guard viewConfigured else {
+            print("Сначала вызови функцию configureView")
+            return
+        }
+        
+        invalidateTimer()
+        switch state {
+        case .work:
+            startWorkTimer()
+        case .relax:
+            
+            if (currentCircle + 1) % bigRelaxEvery == 0 {
+                startBigRelaxTimer()
+            } else {
+                startSmallRelaxTimer()
+            }
+            
+        }
+    }
+    
+    func stopTimer() {
+        
+        currentSeconds = 0
+        invalidateTimer()
+    }
+    
+    func pauseTimer() {
+        
+        invalidateTimer()
+    }
+    
+    func resumeTimer() {
+        startTimer()
+    }
 
 }

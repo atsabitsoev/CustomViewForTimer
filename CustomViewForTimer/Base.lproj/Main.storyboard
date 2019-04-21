@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="3nZ-y1-Z2z" customClass="PomodoroTimerView" customModule="CustomViewForTimer" customModuleProvider="target">
-                                <rect key="frame" x="18" y="236.66666666666663" width="339" height="339"/>
+                                <rect key="frame" x="53" y="271.66666666666669" width="269" height="269.00000000000006"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="3nZ-y1-Z2z" secondAttribute="height" multiplier="1:1" id="BKv-om-7lg"/>
@@ -43,18 +43,76 @@
                                     <userDefinedRuntimeAttribute type="number" keyPath="shadowBlurRadius">
                                         <real key="value" value="4"/>
                                     </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="labTimeFontSize">
-                                        <real key="value" value="10"/>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="totalSeconds">
+                                        <integer key="value" value="300"/>
                                     </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="labTimeFontName" value="Helvetica"/>
                                 </userDefinedRuntimeAttributes>
                             </view>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="s4e-4M-Sbs">
+                                <rect key="frame" x="112.66666666666669" y="593.66666666666663" width="150" height="39"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NER-oT-nUI">
+                                        <rect key="frame" x="0.0" y="0.0" width="70" height="39"/>
+                                        <color key="backgroundColor" red="0.0039215686269999999" green="0.67450980390000004" blue="0.75686274509999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                        <state key="normal" title=" Старт ">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="butStartTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="OzM-cf-H4x"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kca-pD-adr">
+                                        <rect key="frame" x="89.999999999999986" y="0.0" width="60.000000000000014" height="39"/>
+                                        <color key="backgroundColor" red="0.92716297839999995" green="0.52499997620000005" blue="0.52499997620000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                        <state key="normal" title=" Стоп ">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="butStopTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="cJM-Yy-5Ly"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="rYu-It-rM7">
+                                <rect key="frame" x="83.666666666666686" y="650.66666666666663" width="208" height="39"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ojg-ZT-5hb">
+                                        <rect key="frame" x="0.0" y="0.0" width="127" height="39"/>
+                                        <color key="backgroundColor" red="0.0039215686269999999" green="0.67450980390000004" blue="0.75686274509999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                        <state key="normal" title="Продолжить">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="butResumeTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="gBR-fT-w1G"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tfm-vR-MdE">
+                                        <rect key="frame" x="147" y="0.0" width="61" height="39"/>
+                                        <color key="backgroundColor" red="0.92716297839999995" green="0.52499997620000005" blue="0.52499997620000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                        <state key="normal" title="Пауза">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="butPauseTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Pf7-4Q-V1d"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="3nZ-y1-Z2z" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="18" id="1fL-by-7XG"/>
+                            <constraint firstItem="rYu-It-rM7" firstAttribute="top" secondItem="s4e-4M-Sbs" secondAttribute="bottom" constant="18" id="5Cy-jz-iO8"/>
                             <constraint firstItem="3nZ-y1-Z2z" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="BKn-oi-vU7"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="3nZ-y1-Z2z" secondAttribute="trailing" constant="18" id="WP0-kb-1V5"/>
+                            <constraint firstItem="rYu-It-rM7" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Hh1-km-EvN"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="3nZ-y1-Z2z" secondAttribute="trailing" constant="53" id="KrF-rw-2kx"/>
+                            <constraint firstItem="s4e-4M-Sbs" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="ijq-7l-aGP"/>
                             <constraint firstItem="3nZ-y1-Z2z" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="q8k-Rt-xiA"/>
+                            <constraint firstItem="s4e-4M-Sbs" firstAttribute="top" secondItem="3nZ-y1-Z2z" secondAttribute="bottom" constant="53" id="yGZ-1d-cF5"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>

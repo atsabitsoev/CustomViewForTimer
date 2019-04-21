@@ -16,13 +16,36 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        addObservers()
+        pomodoroTimer.configure(workSeconds: 25, smallRelaxSeconds: 5, bigRelaxSeconds: 20, bigRelaxEvery: 4, currentSeconds: 0, currentCircle: 0, totalCircles: 5, currentState: .work)
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        pomodoroTimer.startTimer(totalSeconds: 30, currentSeconds: 40, state: .work)
+    
+    func addObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(workTimerFinished), name: NSNotification.Name("workTimerFinished"), object: nil)
+    }
+    
+    @objc func workTimerFinished() {
+        pomodoroTimer.startTimer()
     }
 
-
+    
+    @IBAction func butStartTapped(_ sender: UIButton) {
+        pomodoroTimer.startTimer()
+    }
+    
+    @IBAction func butStopTapped(_ sender: UIButton) {
+        pomodoroTimer.stopTimer()
+    }
+    
+    @IBAction func butResumeTapped(_ sender: UIButton) {
+        pomodoroTimer.resumeTimer()
+    }
+    
+    @IBAction func butPauseTapped(_ sender: UIButton) {
+        pomodoroTimer.pauseTimer()
+    }
+    
+    
 }
 
