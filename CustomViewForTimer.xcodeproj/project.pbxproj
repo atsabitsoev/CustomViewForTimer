@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		ACA36E2B226CFF0C0095607B /* PomodoroTimerConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA36E2A226CFF0C0095607B /* PomodoroTimerConfiguration.swift */; };
+		ACA36E2D226D01F90095607B /* PomodoroTimerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACA36E2C226D01F90095607B /* PomodoroTimerState.swift */; };
 		ACD5A3E22265C7900080906F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD5A3E12265C7900080906F /* AppDelegate.swift */; };
 		ACD5A3E42265C7900080906F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD5A3E32265C7900080906F /* ViewController.swift */; };
 		ACD5A3E72265C7900080906F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ACD5A3E52265C7900080906F /* Main.storyboard */; };
@@ -16,6 +18,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		ACA36E2A226CFF0C0095607B /* PomodoroTimerConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PomodoroTimerConfiguration.swift; sourceTree = "<group>"; };
+		ACA36E2C226D01F90095607B /* PomodoroTimerState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PomodoroTimerState.swift; sourceTree = "<group>"; };
 		ACD5A3DE2265C7900080906F /* CustomViewForTimer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CustomViewForTimer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACD5A3E12265C7900080906F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		ACD5A3E32265C7900080906F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -37,6 +41,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		ACA36E29226CFEDD0095607B /* PomodoroTimerView */ = {
+			isa = PBXGroup;
+			children = (
+				ACD5A3F32265C7C40080906F /* PomodoroTimerView.swift */,
+				ACA36E2A226CFF0C0095607B /* PomodoroTimerConfiguration.swift */,
+				ACA36E2C226D01F90095607B /* PomodoroTimerState.swift */,
+			);
+			path = PomodoroTimerView;
+			sourceTree = "<group>";
+		};
 		ACD5A3D52265C7900080906F = {
 			isa = PBXGroup;
 			children = (
@@ -58,7 +72,7 @@
 			children = (
 				ACD5A3E12265C7900080906F /* AppDelegate.swift */,
 				ACD5A3E32265C7900080906F /* ViewController.swift */,
-				ACD5A3F32265C7C40080906F /* PomodoroTimerView.swift */,
+				ACA36E29226CFEDD0095607B /* PomodoroTimerView */,
 				ACD5A3E52265C7900080906F /* Main.storyboard */,
 				ACD5A3E82265C7910080906F /* Assets.xcassets */,
 				ACD5A3EA2265C7910080906F /* LaunchScreen.storyboard */,
@@ -140,6 +154,8 @@
 			files = (
 				ACD5A3F42265C7C40080906F /* PomodoroTimerView.swift in Sources */,
 				ACD5A3E42265C7900080906F /* ViewController.swift in Sources */,
+				ACA36E2D226D01F90095607B /* PomodoroTimerState.swift in Sources */,
+				ACA36E2B226CFF0C0095607B /* PomodoroTimerConfiguration.swift in Sources */,
 				ACD5A3E22265C7900080906F /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

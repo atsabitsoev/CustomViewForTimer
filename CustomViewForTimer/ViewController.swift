@@ -12,12 +12,13 @@ class ViewController: UIViewController {
     
     
     @IBOutlet weak var pomodoroTimer: PomodoroTimerView!
+    let pomodoroConfiguration = PomodoroTimerConfiguration(workSeconds: 25, smallRelaxSeconds: 5, bigRelaxSeconds: 20, bigRelaxEvery: 4, currentSeconds: 0, currentCircle: 0, totalCircles: 5, currentState: .work)
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         addObservers()
-        pomodoroTimer.configure(workSeconds: 25, smallRelaxSeconds: 5, bigRelaxSeconds: 20, bigRelaxEvery: 4, currentSeconds: 0, currentCircle: 0, totalCircles: 5, currentState: .work)
+        pomodoroTimer.configure(configuration: pomodoroConfiguration)
     }
     
     

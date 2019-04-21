@@ -8,10 +8,6 @@
 
 import UIKit
 
-enum PomodoroTimerState {
-    case work, relax
-}
-
 
 @IBDesignable
 class PomodoroTimerView: UIView {
@@ -252,23 +248,16 @@ class PomodoroTimerView: UIView {
     
     
     //MARK: Configure PomodoroTimerView
-    func configure(workSeconds: Int,
-                   smallRelaxSeconds: Int,
-                   bigRelaxSeconds: Int,
-                   bigRelaxEvery: Int,
-                   currentSeconds: Int,
-                   currentCircle: Int,
-                   totalCircles: Int,
-                   currentState: PomodoroTimerState) {
+    func configure(configuration conf: PomodoroTimerConfiguration) {
         
-        self.workSeconds = workSeconds
-        self.smallRelaxSeconds = smallRelaxSeconds
-        self.bigRelaxSeconds = bigRelaxSeconds
-        self.bigRelaxEvery = bigRelaxEvery
-        self.currentSeconds = currentSeconds
-        self.currentCircle = currentCircle
-        self.totalCircles = totalCircles
-        self.state = currentState
+        self.workSeconds = conf.workSeconds
+        self.smallRelaxSeconds = conf.smallRelaxSeconds
+        self.bigRelaxSeconds = conf.bigRelaxSeconds
+        self.bigRelaxEvery = conf.bigRelaxEvery
+        self.currentSeconds = conf.currentSeconds
+        self.currentCircle = conf.currentCircle
+        self.totalCircles = conf.totalCircles
+        self.state = conf.currentState
         
         viewConfigured = true
     }
@@ -292,6 +281,8 @@ class PomodoroTimerView: UIView {
                 print("Начался круг \(currentCircle)")
                 state = .work
                 startTimer()
+            } else {
+                stopTimer()
             }
             
         }
@@ -364,6 +355,7 @@ class PomodoroTimerView: UIView {
         
         currentSeconds = 0
         invalidateTimer()
+        resetTimer()
     }
     
     func pauseTimer() {
@@ -373,6 +365,14 @@ class PomodoroTimerView: UIView {
     
     func resumeTimer() {
         startTimer()
+    }
+    
+    
+    private func resetTimer() {
+        currentCircle = 0
+        currentSeconds = 0
+        state = .work
+        print("таймер сброшен")
     }
 
 }
