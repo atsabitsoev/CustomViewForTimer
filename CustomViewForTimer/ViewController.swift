@@ -18,7 +18,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         addObservers()
-        pomodoroTimer.configure(configuration: pomodoroConfiguration)
+        pomodoroTimer.configure(configuration: pomodoroConfigurationй)
     }
     
     
